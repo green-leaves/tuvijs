@@ -2,11 +2,12 @@
   "compilerOptions": {
     "declaration": true,
     "lib": ["es2019", "dom"],
-    "module": "commonjs",
     "noImplicitAny": true,
     "outDir": "./dist",
     "sourceMap": true,
-    "target": "es5"
+    "target": "es2015",
+    "module": "es2015",
+    "moduleResolution": "node"
   },
   "exclude": [
     "node_modules", "dist", "**/*.test.ts"

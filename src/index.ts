@@ -1,3 +1,6 @@
-export {Can} from "./core/Can";
-export {Chi} from "./core/Chi"
-export {LaSo} from "./tuvi/LaSo";
+// import {Can} from "./core/Can";
+// import {Chi} from "./core/Chi"
+//import {LaSo} from "./tuvi/LaSo";
+
+
+export * from "./tuvi/LaSo"

@@ -3,6 +3,7 @@ import {Chi} from "../../core/Chi";
 import {Can} from "../../core/Can";
 import {ChinhTinh, PhuTinh} from "../TinhDau";
 import {AmDuong, GioiTinh} from "../../core/AmDuong";
+// @ts-ignore
 import moment = require("moment");
 
 

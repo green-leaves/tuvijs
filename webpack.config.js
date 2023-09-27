@@ -11,17 +11,9 @@ module.exports = {
     entry: path.resolve(SRC_DIR, 'index.ts'),
     output: {
         filename: 'tuvijs.js',
-        library: 'TuVi',
-        libraryTarget: 'umd',
+        library: "tuvi",
+        libraryTarget: "umd",
         path: DIST_DIR
-    },
-    externals: {
-        moment: {
-            commonjs: 'moment',
-            commonjs2: 'moment',
-            amd: 'moment',
-            root: 'moment',
-        },
     },
     devtool: 'source-map',
     resolve: {

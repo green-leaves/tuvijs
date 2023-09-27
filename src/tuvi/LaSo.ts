@@ -174,7 +174,7 @@ export class LaSo {
         this.cuc = NguHanh.byNapAm(napAm);
     }
 
-    private anChinhTinh() {
+    private  anChinhTinh() {
         let cucCungMenh = this.cuc;
         let soDu = this.amLich.ngay.val % cucCungMenh.cuc;
         let thuong = Math.floor(this.amLich.ngay.val / cucCungMenh.cuc);
