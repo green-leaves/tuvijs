@@ -6,7 +6,7 @@ import {AmLich, HoaGiap} from "../core/Lich";
 import {Moment} from "moment";
 import {NguHanh} from "../core/NguHanh";
 import {ChinhTinh, PhuTinh, TinhDau} from "./TinhDau";
-import {AmDuong, GioiTinh} from "../core/AmDuong";
+import {AmDuong, CatHung, GioiTinh} from "../core/AmDuong";
 
 export class LaSo {
 
@@ -850,6 +850,11 @@ export class LaSo {
                 break;
             case Can.Đinh:
             case Can.Nhâm:
+                this.getCungVi(Chi.Dần).anPhuTinh(PhuTinh.TRIỆT);
+                this.getCungVi(Chi.Mão).anPhuTinh(PhuTinh.TRIỆT);
+                break;
+            case Can.Mậu:
+            case Can.Quý:
                 this.getCungVi(Chi.Tý).anPhuTinh(PhuTinh.TRIỆT);
                 this.getCungVi(Chi.Sửu).anPhuTinh(PhuTinh.TRIỆT);
                 break;
@@ -903,6 +908,14 @@ export class Cung {
 
     public getTinhDau(): TinhDau[] {
         return this.chinhTinh.concat(this.phuTinh);
+    }
+
+    get phuTinhTot() : PhuTinh[] {
+        return this._phuTinh.filter(phuTinh => phuTinh.type == null || CatHung.Cát.equals(phuTinh.type));
+    }
+
+    get phuTinhXau() : PhuTinh[] {
+        return this._phuTinh.filter(phuTinh => CatHung.Hung.equals(phuTinh.type));
     }
 
     get can(): Can {

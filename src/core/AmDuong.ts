@@ -47,3 +47,28 @@ export class GioiTinh extends AmDuong {
     }
 }
 
+export class CatHung extends AmDuong {
+    public static readonly Cát = new CatHung("Cát", AmDuong.Dương);
+    public static readonly Hung = new CatHung("Hung", AmDuong.Âm);
+
+    private _val: string;
+
+    constructor(val: string, amDuong: AmDuong) {
+        super(amDuong.name, amDuong.value);
+        this._val = val
+    }
+
+    public equals(catHung: CatHung): boolean {
+        return catHung != null && catHung.val === this.val;
+    }
+
+    get val(): string {
+        return this._val;
+    }
+
+    set val(value: string) {
+        this._val = value;
+    }
+}
+
+

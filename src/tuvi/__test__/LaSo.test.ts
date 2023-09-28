@@ -255,3 +255,10 @@ test('Khởi tạo lá số bằng lịch âm', () => {
         .toEqual(expect.arrayContaining([ChinhTinh.Tử_Vi, ChinhTinh.Thiên_Tướng]));
 });
 
+test('Tuần Triệt', () => {
+
+    let laso = LaSo.new('1963-03-03 17:00:00', GioiTinh.Nữ, AmDuong.Dương);
+    expect(laso.getCungVi(Chi.Tý).phuTinh).toContain(PhuTinh.TRIỆT);
+    expect(laso.getCungVi(Chi.Sửu).phuTinh).toContain(PhuTinh.TRIỆT);
+})
+

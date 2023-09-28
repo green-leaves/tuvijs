@@ -15,6 +15,9 @@ module.exports = {
         libraryTarget: "umd",
         path: DIST_DIR
     },
+    externals: {
+        moment: 'moment'
+    },
     devtool: 'source-map',
     resolve: {
         extensions: [ '.tsx', '.ts', '.js' ],

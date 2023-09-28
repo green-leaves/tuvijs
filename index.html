@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:x-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu Vi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script type="text/javascript" src="./dist/tuvijs.js"></script>
+    <style>
+        /* Custom CSS to center the body horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Set the body's minimum height to the viewport height */
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            position: relative;
+            vertical-align: top;
+            min-width: 200px;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .bottom-0 {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+        }
+
+        .float-left {
+            float: left;
+            text-align: left;
+        }
+
+        .float-right {
+            float: right;
+            text-align: left;
+        }
+
+        .clearfix {
+            display: block;
+        }
+
+        .clearfix:after {
+            content: "\0020";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .phu-tinh {
+            padding-bottom: 12px;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div x-data="app">
+
+    <select x-model="year" x-on:change="onDateTimeChange($event)">
+        <option value="" disabled>Năm</option>
+        <template x-for="yyyy in years">
+            <option x-text="yyyy" :selected="yyyy == year"></option>
+        </template>
+    </select>
+    <select x-model="month" x-on:change="onDateTimeChange($event)">
+        <option value="" disabled>Tháng</option>
+        <template x-for="mm in months">
+            <option x-text="mm" :selected="mm == month"></option>
+        </template>
+    </select>
+    <select x-model="day" x-on:change="onDateTimeChange($event)">
+        <option value="" disabled>Ngày</option>
+        <template x-for="dd in days">
+            <option x-text="dd" :selected="dd == day"></option>
+        </template>
+    </select>
+
+    <select x-model="hour" x-on:change="onDateTimeChange($event)">
+        <option value="" disabled>Giờ</option>
+        <template x-for="hh in hours">
+            <option x-text="hh" :selected="hh == hour"></option>
+        </template>
+    </select>
+
+    <select x-model="minute" x-on:change="onDateTimeChange($event)">
+        <option value="" disabled>Phút</option>
+        <template x-for="mm in minutes">
+            <option x-text="mm" :selected="mm == minute"></option>
+        </template>
+    </select>
+
+    <!-- Input field -->
+    <input type="text" x-model="datetime" class="border border-gray-300 p-2 m-2">
+
+    <!-- Button to bind data -->
+    <button x-bind="bindData" class="bg-blue-500 text-white p-2 rounded-md m-2">Xem</button>
+
+    <template x-if="laso != null">
+        <table>
+            <template x-for="row in 4">
+                <tr>
+                    <template x-for="col in 4">
+                        <template x-if="matrix[row - 1][col - 1] != null">
+                            <td :colspan="matrix[row - 1][col - 1] == 'merged' ? 2 : 1"
+                                :rowspan="matrix[row - 1][col - 1] == 'merged' ? 2 : 1">
+                                <template x-if="matrix[row - 1][col - 1].cungChuc != null">
+                                    <div>
+                                        <div class="font-bold text-center">
+                                            <span x-html="matrix[row - 1][col - 1].cungChuc.name"></span>
+                                            <template x-if="matrix[row - 1][col - 1].cungThan"><span>(Thân)</span>
+                                            </template>
+                                            <div>
+                                                <template x-for="chinhTinh in matrix[row - 1][col - 1].chinhTinh"
+                                                          :key="chinhTinh.name">
+                                                    <span class="" x-html="chinhTinh.name + ' '"></span>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix phu-tinh">
+                                            <div class="float-left">
+                                                <template x-for="catTinh in matrix[row - 1][col - 1].phuTinhTot">
+                                                    <div x-html="catTinh.name"></div>
+                                                </template>
+                                            </div>
+                                            <div class="float-right">
+                                                <template x-for="catTinh in matrix[row - 1][col - 1].phuTinhXau">
+                                                    <div x-html="catTinh.name"></div>
+                                                </template>
+                                            </div>
+                                        </div>
+
+                                        <div class="absolute bottom-0 text-center"
+                                             x-html="matrix[row - 1][col - 1].can.name + ' ' + matrix[row - 1][col - 1].chi.name"></div>
+                                    </div>
+                                </template>
+                                <template x-if="matrix[row - 1][col - 1] == 'merged'">
+                                    <div>
+                                        <div x-html="laso.cuc.name"></div>
+                                    </div>
+                                </template>
+                            </td>
+                        </template>
+                    </template>
+                </tr>
+            </template>
+        </table>
+    </template>
+</div>
+<script type="text/javascript">
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const currentDay = String(currentDate.getDate()).padStart(2, '0')
+    const currentHour = String(currentDate.getHours()).padStart(2, '0')
+    const currentMinute = String(currentDate.getMinutes()).padStart(2, '0')
+
+    // Generate an array of years from 1900 to the current year
+    const years = [];
+    const months = [];
+    const days = [];
+    const hours = [];
+    const minutes = [];
+    for (let year = 1900; year <= currentYear; year++) {
+        years.push(year);
+    }
+
+    for (let month = 1; month <= 12; month++) {
+        months.push(String(month).padStart(2, '0'));
+    }
+
+    for (let day = 1; day <= 31; day++) {
+        days.push(String(day).padStart(2, '0'));
+    }
+
+    for (let hour = 0; hour <= 23; hour++) {
+        hours.push(String(hour).padStart(2, '0'));
+    }
+
+    for (let minute = 0; minute <= 59; minute++) {
+        minutes.push(String(minute).padStart(2, '0'));
+    }
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('app', () => ({
+            laso: null,
+            matrix: null,
+            year: currentYear,
+            month: currentMonth,
+            day: currentDay,
+            hour: currentHour,
+            minute: currentMinute,
+            datetime: `${currentYear}-${currentMonth}-${currentDay} ${currentHour}:${currentMinute}`,
+            onDateTimeChange() {
+                this.datetime = `${this.year}-${this.month}-${this.day} ${this.hour}:${this.minute}`;
+            },
+            bindData: {
+                ['@click']() {
+                    console.log(this.inputData);
+                    this.laso = tuvi.LaSo.new(this.datetime);
+                    this.matrix = Array.from({length: 4}, () => Array(4).fill(null));
+                    this.matrix[0][0] = this.laso.getCungVi(tuvi.Chi.Tị);
+                    this.matrix[0][1] = this.laso.getCungVi(tuvi.Chi.Ngọ);
+                    this.matrix[0][2] = this.laso.getCungVi(tuvi.Chi.Mùi);
+                    this.matrix[0][3] = this.laso.getCungVi(tuvi.Chi.Thân);
+
+                    this.matrix[1][0] = this.laso.getCungVi(tuvi.Chi.Thìn);
+                    this.matrix[1][1] = "merged";
+                    this.matrix[1][3] = this.laso.getCungVi(tuvi.Chi.Dậu);
+
+                    this.matrix[2][0] = this.laso.getCungVi(tuvi.Chi.Mão);
+                    this.matrix[2][3] = this.laso.getCungVi(tuvi.Chi.Tuất);
+
+                    this.matrix[3][0] = this.laso.getCungVi(tuvi.Chi.Dần);
+                    this.matrix[3][1] = this.laso.getCungVi(tuvi.Chi.Sửu);
+                    this.matrix[3][2] = this.laso.getCungVi(tuvi.Chi.Tý);
+                    this.matrix[3][3] = this.laso.getCungVi(tuvi.Chi.Hợi);
+
+                    console.log(this.laso);
+                },
+            }
+        }))
+    })
+</script>
+</body>
+</html>
