@@ -261,4 +261,10 @@ test('Tuần Triệt', () => {
     expect(laso.getCungVi(Chi.Tý).phuTinh).toContain(PhuTinh.TRIỆT);
     expect(laso.getCungVi(Chi.Sửu).phuTinh).toContain(PhuTinh.TRIỆT);
 })
+test('1994-01-27 09:07', () => {
+
+    let laso = LaSo.new('1994-01-27 09:07', GioiTinh.Nữ, AmDuong.Dương);
+    expect(laso.getCungVi(Chi.Tý).phuTinh).toContain(PhuTinh.TRIỆT);
+    expect(laso.getCungVi(Chi.Sửu).phuTinh).toContain(PhuTinh.TRIỆT);
+})
 

@@ -29,6 +29,9 @@ export class Can {
     }
 
     public static byValue(value: number) : Can {
+        if (value == 0) {
+            value = 10;
+        }
         return Can.list[value - 1];
     }
 
