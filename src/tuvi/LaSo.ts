@@ -15,6 +15,7 @@ export class LaSo {
     private _amLich: AmLich;
     private _duongLich: Moment;
     private _cuc: NguHanh;
+    private _menh: NguHanh;
     private _cungList: Cung[] = [];
     private _gioiTinh: GioiTinh;
 
@@ -98,8 +99,17 @@ export class LaSo {
         this._cuc = value;
     }
 
-    // === Private ====
+    get menh(): NguHanh {
+        return this._menh;
+    }
+
+    set menh(value: NguHanh) {
+        this._menh = value;
+    }
+
+// === Private ====
     private static anLaSo(laso: LaSo) {
+        laso.timHanhNamSinh();
         laso.anThienCan(LaSo.timCanCungDan(laso.amLich.nam.can));
         laso.anCungChuc(LaSo.timCungMenh(laso.amLich.thang.val, laso.amLich.gio.val));
         laso.anCungThan();
@@ -141,6 +151,12 @@ export class LaSo {
         laso.anTuanKhong();
         laso.anDaiVan();
         laso.anTieuVan();
+    }
+
+    private timHanhNamSinh() {
+        let napAm = this.amLich.nam.can.napAm + this.amLich.nam.chi.napAm;
+        napAm = napAm > 5 ? napAm - 5 : napAm;
+        this._menh = NguHanh.byNapAm(napAm);
     }
 
     private anThienCan(canCungDan: Can) {
