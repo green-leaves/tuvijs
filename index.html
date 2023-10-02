@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:x-on="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:x-on="http://www.w3.org/1999/xhtml" xmlns:x-mask="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Tu Vi</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script type="text/javascript" src="./dist/tuvijs.js"></script>
     <style>
@@ -29,6 +30,13 @@
             position: relative;
             vertical-align: top;
             min-width: 200px;
+        }
+
+        .thien-ban,
+        .thien-ban th,
+        .thien-ban td {
+            border: none;
+            min-width: auto;
         }
 
         .absolute {
@@ -77,21 +85,22 @@
 </head>
 <body>
 <div x-data="app">
-
-    <select x-model="year" x-on:change="onDateTimeChange($event)">
+    <div>
+    Lịch Dương: <input type="radio" value="Dương" x-model="lich">
+    Lịch Âm: <input type="radio" value="Âm" x-model="lich">
+    </div>
+    Năm <select x-model="year" x-on:change="onDateTimeChange($event)">
         <option value="" disabled>Năm</option>
         <template x-for="yyyy in years">
             <option x-text="yyyy" :selected="yyyy == year"></option>
         </template>
     </select>
-    <select x-model="month" x-on:change="onDateTimeChange($event)">
-        <option value="" disabled>Tháng</option>
+    Tháng <select x-model="month" x-on:change="onDateTimeChange($event)">
         <template x-for="mm in months">
-            <option x-text="mm" :selected="mm == month"></option>
+            <option x-html="mm" :selected="mm == month"></option>
         </template>
     </select>
-    <select x-model="day" x-on:change="onDateTimeChange($event)">
-        <option value="" disabled>Ngày</option>
+    Ngày <select x-model="day" x-on:change="onDateTimeChange($event)">
         <template x-for="dd in days">
             <option x-text="dd" :selected="dd == day"></option>
         </template>
@@ -112,13 +121,17 @@
     </select>
 
     <!-- Input field -->
-    <input type="text" x-model="datetime" class="border border-gray-300 p-2 m-2">
+    <!--9999-99-99 99:99-->
+    <input type="text" class="border border-gray-300 p-2 m-2" x-mask:function="formatDateTime" x-model="datetime"
+           @keydown.enter="xem()" @keydown.n="toggleGioiTinh()">
 
+    Nam: <input type="radio" value="Nam" x-model="gioiTinh">
+    Nữ: <input type="radio" value="Nữ" x-model="gioiTinh">
     <!-- Button to bind data -->
     <button x-bind="bindData" class="bg-blue-500 text-white p-2 rounded-md m-2">Xem</button>
 
     <template x-if="laso != null">
-        <table>
+        <table id="laso">
             <template x-for="row in 4">
                 <tr>
                     <template x-for="col in 4">
@@ -136,28 +149,80 @@
                                                           :key="chinhTinh.name">
                                                     <span class="" x-html="chinhTinh.name + ' '"></span>
                                                 </template>
+                                                <template x-if="matrix[row - 1][col - 1].chinhTinh.length == 0">
+                                                    <span class="" x-html="'&nbsp;'"></span>
+                                                </template>
                                             </div>
                                         </div>
                                         <div class="clearfix phu-tinh">
                                             <div class="float-left">
                                                 <template x-for="catTinh in matrix[row - 1][col - 1].phuTinhTot">
-                                                    <div x-html="catTinh.name"></div>
+<!--                                                    <div :class="setPhuTinhClass(catTinh)" x-html="catTinh.name"></div>-->
+                                                    <div>
+                                                        <span :class="setPhuTinhClass(catTinh)" x-html="catTinh.name"></span>
+                                                    </div>
                                                 </template>
                                             </div>
                                             <div class="float-right">
-                                                <template x-for="catTinh in matrix[row - 1][col - 1].phuTinhXau">
-                                                    <div x-html="catTinh.name"></div>
+                                                <template x-for="satTinh in matrix[row - 1][col - 1].phuTinhXau">
+                                                    <div :class="setPhuTinhClass(satTinh)"  x-html="satTinh.name"></div>
                                                 </template>
                                             </div>
                                         </div>
 
-                                        <div class="absolute bottom-0 text-center"
-                                             x-html="matrix[row - 1][col - 1].can.name + ' ' + matrix[row - 1][col - 1].chi.name"></div>
+                                        <div class="absolute bottom-0 text-center flex justify-between px-1">
+                                            <span x-html="matrix[row - 1][col - 1].tieuVan.name"></span>
+                                            <span x-html="matrix[row - 1][col - 1].can.name + ' ' + matrix[row - 1][col - 1].chi.name"></span>
+                                            <span x-html="matrix[row - 1][col - 1].daiVan"></span>
+                                        </div>
                                     </div>
                                 </template>
                                 <template x-if="matrix[row - 1][col - 1] == 'merged'">
                                     <div>
-                                        <div x-html="laso.cuc.name"></div>
+                                        <table class="thien-ban font-bold">
+                                            <tr>
+                                                <td></td>
+                                                <td>Năm</td>
+                                                <td>Tháng</td>
+                                                <td>Ngày</td>
+                                                <td>Giờ</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Dương Lịch</td>
+                                                <td x-text="laso.duongLich.year()"></td>
+                                                <td x-text="pad00(laso.duongLich.month() + 1)"></td>
+                                                <td x-text="pad00(laso.duongLich.date())"></td>
+                                                <td x-text="laso.duongLich.format('HH:mm')"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Âm Lịch</td>
+                                                <td></td>
+                                                <td x-text="pad00(laso.amLich.thang.val)"></td>
+                                                <td x-text="pad00(laso.amLich.ngay.val)"></td>
+                                                <td x-text="laso.amLich.gio.chi.name"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Can Chi</td>
+                                                <td x-html="laso.amLich.nam.can.name + ' ' + laso.amLich.nam.chi.name"></td>
+                                                <td x-html="laso.amLich.thang.can.name + ' ' + laso.amLich.thang.chi.name"></td>
+                                                <td x-html="laso.amLich.ngay.can.name + ' ' + laso.amLich.ngay.chi.name"></td>
+                                                <td x-html="laso.amLich.gio.can.name + ' ' + laso.amLich.gio.chi.name"></td>
+                                            </tr>
+                                            <tr>
+                                                <td x-text="'Cục'"></td>
+                                                <td x-html="laso.cuc.cucName"></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td x-text="'Giới Tính'"></td>
+                                                <td x-html="laso.amLich.nam.can.amDuong.name + ' ' + laso.gioiTinh.gioiTinh"></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </template>
                             </td>
@@ -171,10 +236,10 @@
 <script type="text/javascript">
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
-    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const currentDay = String(currentDate.getDate()).padStart(2, '0')
-    const currentHour = String(currentDate.getHours()).padStart(2, '0')
-    const currentMinute = String(currentDate.getMinutes()).padStart(2, '0')
+    const currentMonth = pad00(currentDate.getMonth() + 1);
+    const currentDay = pad00(currentDate.getDate());
+    const currentHour = pad00(currentDate.getHours());
+    const currentMinute = pad00(currentDate.getMinutes());
 
     // Generate an array of years from 1900 to the current year
     const years = [];
@@ -182,28 +247,69 @@
     const days = [];
     const hours = [];
     const minutes = [];
-    for (let year = 1900; year <= currentYear; year++) {
+    for (let year = 1900; year <= currentYear + 60; year++) {
         years.push(year);
     }
 
     for (let month = 1; month <= 12; month++) {
-        months.push(String(month).padStart(2, '0'));
+        months.push(pad00(month));
     }
 
     for (let day = 1; day <= 31; day++) {
-        days.push(String(day).padStart(2, '0'));
+        days.push(pad00(day));
     }
 
     for (let hour = 0; hour <= 23; hour++) {
-        hours.push(String(hour).padStart(2, '0'));
+        hours.push(pad00(hour));
     }
 
     for (let minute = 0; minute <= 59; minute++) {
-        minutes.push(String(minute).padStart(2, '0'));
+        minutes.push(pad00(minute));
+    }
+
+    function formatDateTime(input) {
+        return '9999-99-99 99:99';
+    }
+
+    function setPhuTinhClass(sao) {
+        if (sao.group != null) {
+            if (sao.group.val === 'Lục Cát') {
+                return 'font-bold text-green-600';
+            }
+            if (sao.group.val === 'Lục Sát') {
+                return 'font-bold text-red-600';
+            }
+            if (sao.group.val === 'Tứ Hóa') {
+                return 'font-bold text-yellow-600';
+            }
+
+            if (sao.group.val === 'Tam Minh') {
+                return 'font-bold text-pink-600';
+            }
+        }
+
+        if (sao.name === "Tuần" || sao.name === "Triệt") {
+            return 'bg-gray-200 rounded py-px px-1';
+        }
+    }
+
+    function pad00(str) {
+        return String(str).padStart(2, '0');
     }
 
     document.addEventListener('alpine:init', () => {
         Alpine.data('app', () => ({
+            init() {
+                this.datetime = this.d != null ? this.d : this.datetime;
+                this.gioiTinh = this.s != null ? this.s : this.gioiTinh;
+                this.lich = this.c != null ? this.c : this.lich;
+                if (this.d != null) {
+                    this.xem();
+                }
+            },
+            d: new URLSearchParams(location.search).get('d'),
+            s: new URLSearchParams(location.search).get('s'),
+            c: new URLSearchParams(location.search).get('c'),
             laso: null,
             matrix: null,
             year: currentYear,
@@ -211,33 +317,51 @@
             day: currentDay,
             hour: currentHour,
             minute: currentMinute,
+            gioiTinh: 'Nam',
+            lich: 'Dương',
             datetime: `${currentYear}-${currentMonth}-${currentDay} ${currentHour}:${currentMinute}`,
             onDateTimeChange() {
                 this.datetime = `${this.year}-${this.month}-${this.day} ${this.hour}:${this.minute}`;
             },
+            xem() {
+                this.laso = tuvi.LaSo.new(this.datetime, tuvi.GioiTinh.from(this.gioiTinh), tuvi.AmDuong.from(this.lich));
+                this.matrix = Array.from({length: 4}, () => Array(4).fill(null));
+                this.matrix[0][0] = this.laso.getCungVi(tuvi.Chi.Tị);
+                this.matrix[0][1] = this.laso.getCungVi(tuvi.Chi.Ngọ);
+                this.matrix[0][2] = this.laso.getCungVi(tuvi.Chi.Mùi);
+                this.matrix[0][3] = this.laso.getCungVi(tuvi.Chi.Thân);
+
+                this.matrix[1][0] = this.laso.getCungVi(tuvi.Chi.Thìn);
+                this.matrix[1][1] = "merged";
+                this.matrix[1][3] = this.laso.getCungVi(tuvi.Chi.Dậu);
+
+                this.matrix[2][0] = this.laso.getCungVi(tuvi.Chi.Mão);
+                this.matrix[2][3] = this.laso.getCungVi(tuvi.Chi.Tuất);
+
+                this.matrix[3][0] = this.laso.getCungVi(tuvi.Chi.Dần);
+                this.matrix[3][1] = this.laso.getCungVi(tuvi.Chi.Sửu);
+                this.matrix[3][2] = this.laso.getCungVi(tuvi.Chi.Tý);
+                this.matrix[3][3] = this.laso.getCungVi(tuvi.Chi.Hợi);
+
+                this.year = this.laso.duongLich.year();
+                this.month = this.laso.duongLich.month() + 1;
+                this.day = this.laso.duongLich.date();
+                this.hour = this.laso.duongLich.hour();
+                this.minute = this.laso.duongLich.minute();
+                console.log(this.laso);
+
+                const url = new URL(window.location.href);
+                url.searchParams.set('d', this.datetime);
+                url.searchParams.set('s', this.gioiTinh);
+                url.searchParams.set('c', this.lich);
+                history.pushState(null, document.title, url.toString());
+            },
+            toggleGioiTinh() {
+                this.gioiTinh = this.gioiTinh == "Nam" ? "Nữ" : "Nam";
+            },
             bindData: {
                 ['@click']() {
-                    console.log(this.inputData);
-                    this.laso = tuvi.LaSo.new(this.datetime);
-                    this.matrix = Array.from({length: 4}, () => Array(4).fill(null));
-                    this.matrix[0][0] = this.laso.getCungVi(tuvi.Chi.Tị);
-                    this.matrix[0][1] = this.laso.getCungVi(tuvi.Chi.Ngọ);
-                    this.matrix[0][2] = this.laso.getCungVi(tuvi.Chi.Mùi);
-                    this.matrix[0][3] = this.laso.getCungVi(tuvi.Chi.Thân);
-
-                    this.matrix[1][0] = this.laso.getCungVi(tuvi.Chi.Thìn);
-                    this.matrix[1][1] = "merged";
-                    this.matrix[1][3] = this.laso.getCungVi(tuvi.Chi.Dậu);
-
-                    this.matrix[2][0] = this.laso.getCungVi(tuvi.Chi.Mão);
-                    this.matrix[2][3] = this.laso.getCungVi(tuvi.Chi.Tuất);
-
-                    this.matrix[3][0] = this.laso.getCungVi(tuvi.Chi.Dần);
-                    this.matrix[3][1] = this.laso.getCungVi(tuvi.Chi.Sửu);
-                    this.matrix[3][2] = this.laso.getCungVi(tuvi.Chi.Tý);
-                    this.matrix[3][3] = this.laso.getCungVi(tuvi.Chi.Hợi);
-
-                    console.log(this.laso);
+                    this.xem();
                 },
             }
         }))

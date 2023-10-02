@@ -30,7 +30,7 @@ export class LaSo {
 
         let _momentObj = moment(inputDateTime);
 
-        laso.duongLich = lich === AmDuong.Dương ? _momentObj : _momentObj.clone().solar();
+        laso.duongLich = lich === AmDuong.Dương ? _momentObj.clone() : _momentObj.clone().solar();
         laso.amLich = new AmLich(_momentObj, lich);
 
         this.anLaSo(laso);
@@ -139,6 +139,8 @@ export class LaSo {
         laso.anTuHoa();
         laso.anTrietKhong();
         laso.anTuanKhong();
+        laso.anDaiVan();
+        laso.anTieuVan();
     }
 
     private anThienCan(canCungDan: Can) {
@@ -884,6 +886,60 @@ export class LaSo {
         }
     }
 
+    private anDaiVan() {
+        let amDuongNum = this.amLich.nam.can.amDuong.value + this.gioiTinh.value;
+        if (amDuongNum == 2) {
+            amDuongNum = 0;
+        }
+        let cungMenh = this.getCungChuc(CungChuc.Mệnh);
+        cungMenh.daiVan = this.cuc.cuc;
+
+        if (amDuongNum == 0) {
+            for (let i = 1; i < this.cungList.length; i++) {
+                this.getCungVi(cungMenh.chi.tien(i)).daiVan = 10 * i + this.cuc.cuc;
+            }
+        } else if (amDuongNum == 1) {
+            for (let i = 1; i < this.cungList.length; i++) {
+                this.getCungVi(cungMenh.chi.lui(i)).daiVan = 10 * i + this.cuc.cuc;
+            }
+        }
+    }
+
+    private anTieuVan() {
+        let chiNam = this.amLich.nam.chi;
+        let cungStart;
+        switch (chiNam) {
+            case Chi.Thân:
+            case Chi.Tý:
+            case Chi.Thìn:
+                cungStart = Chi.Tuất;
+                break;
+            case Chi.Hợi:
+            case Chi.Mão:
+            case Chi.Mùi:
+                cungStart = Chi.Sửu;
+                break;
+            case Chi.Dần:
+            case Chi.Ngọ:
+            case Chi.Tuất:
+                cungStart = Chi.Thìn;
+                break;
+            case Chi.Tị:
+            case Chi.Dậu:
+            case Chi.Sửu:
+                cungStart = Chi.Mùi;
+                break;
+        }
+
+        for (let i = 0; i < this.cungList.length; i++) {
+            if (this.gioiTinh == GioiTinh.Nam) {
+                this.getCungVi(cungStart.tien(i)).tieuVan = chiNam.tien(i);
+            } else if (this.gioiTinh == GioiTinh.Nữ) {
+                this.getCungVi(cungStart.lui(i)).tieuVan = chiNam.tien(i);
+            }
+        }
+
+    }
 }
 
 export class Cung {
@@ -893,6 +949,8 @@ export class Cung {
     private _cungThan: boolean = false;
     private _chinhTinh: ChinhTinh[] = [];
     private _phuTinh: PhuTinh[] = [];
+    private _daiVan: number;
+    private _tieuVan: Chi;
 
     constructor(chi: Chi) {
         this._chi = chi;
@@ -965,6 +1023,24 @@ export class Cung {
 
     set phuTinh(value: PhuTinh[]) {
         this._phuTinh = value;
+    }
+
+
+    get daiVan(): number {
+        return this._daiVan;
+    }
+
+    set daiVan(value: number) {
+        this._daiVan = value;
+    }
+
+
+    get tieuVan(): Chi {
+        return this._tieuVan;
+    }
+
+    set tieuVan(value: Chi) {
+        this._tieuVan = value;
     }
 }
 

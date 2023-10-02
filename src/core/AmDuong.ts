@@ -10,21 +10,35 @@ export class AmDuong {
         this._value = value;
     }
 
+    public static from(val: string) {
+        if (val === AmDuong.Dương._name) {
+            return AmDuong.Dương;
+        }
+
+        if (val === AmDuong.Âm._name) {
+            return AmDuong.Âm;
+        }
+    }
+
+    public static fromNum(val: number) {
+        if (val === 0) {
+            return AmDuong.Âm;
+        }
+
+        if (val === 1) {
+            return AmDuong.Dương;
+        }
+    }
+
     get name(): string {
         return this._name;
     }
 
-    set name(value: string) {
-        this._name = value;
-    }
 
     get value(): number {
         return this._value;
     }
 
-    set value(value: number) {
-        this._value = value;
-    }
 }
 
 export class GioiTinh extends AmDuong {
@@ -36,6 +50,15 @@ export class GioiTinh extends AmDuong {
     constructor(gioiTinh: string, amDuong: AmDuong) {
         super(amDuong.name, amDuong.value);
         this.gioiTinh = gioiTinh
+    }
+    public static from(val: string) {
+        if (val === GioiTinh.Nam._gioiTinh) {
+            return GioiTinh.Nam;
+        }
+
+        if (val === GioiTinh.Nữ._gioiTinh) {
+            return GioiTinh.Nữ;
+        }
     }
 
     get gioiTinh(): string {

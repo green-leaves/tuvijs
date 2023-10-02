@@ -33,11 +33,17 @@ export class ChinhTinh implements TinhDau {
 export class TinhDauGroup {
     public static readonly Lục_Cát: TinhDauGroup = new TinhDauGroup("Lục Cát");
     public static readonly Lục_Sát: TinhDauGroup = new TinhDauGroup("Lục Sát");
+    public static readonly Tứ_Hóa: TinhDauGroup = new TinhDauGroup("Tứ Hóa");
+    public static readonly Tam_Minh: TinhDauGroup = new TinhDauGroup("Tam Minh");
 
     private _val: string;
 
     constructor(val: string) {
         this._val = val;
+    }
+
+    get val(): string {
+        return this._val;
     }
 }
 
@@ -72,11 +78,11 @@ export class PhuTinh implements TinhDau {
 
     public static readonly Thiên_Không = new PhuTinh("Thiên Không", CatHung.Hung);
 
-    public static readonly Đào_Hoa = new PhuTinh("Đào Hoa");
-    public static readonly Hồng_Loan = new PhuTinh("Hồng Loan");
-    public static readonly Thiên_Hỷ = new PhuTinh("Thiên Hỷ");
+    public static readonly Đào_Hoa = new PhuTinh("Đào Hoa", CatHung.Cát, TinhDauGroup.Tam_Minh);
+    public static readonly Hồng_Loan = new PhuTinh("Hồng Loan", CatHung.Cát, TinhDauGroup.Tam_Minh);
+    public static readonly Thiên_Hỷ = new PhuTinh("Thiên Hỷ", CatHung.Cát, TinhDauGroup.Tam_Minh);
 
-    public static readonly Thiên_Hình = new PhuTinh("Thiên Hình");
+    public static readonly Thiên_Hình = new PhuTinh("Thiên Hình", CatHung.Hung);
     public static readonly Thiên_Mã = new PhuTinh("Thiên Mã");
 
     public static readonly Long_Trì = new PhuTinh("Long Trì");
@@ -96,7 +102,7 @@ export class PhuTinh implements TinhDau {
 
     public static readonly Phá_Toái = new PhuTinh("Phá Toái");
 
-    public static readonly Thiên_Riêu = new PhuTinh("Thiên Riêu");
+    public static readonly Thiên_Riêu = new PhuTinh("Thiên Riêu", CatHung.Hung);
     public static readonly Thiên_Y = new PhuTinh("Thiên Y");
 
     public static readonly Thiên_Giải = new PhuTinh("Thiên Giải");
@@ -117,10 +123,10 @@ export class PhuTinh implements TinhDau {
     public static readonly TUẦN = new PhuTinh("Tuần");
     public static readonly TRIỆT = new PhuTinh("Triệt");
 
-    public static readonly Hóa_Lộc = new PhuTinh("Hóa Lộc");
-    public static readonly Hóa_Quyền = new PhuTinh("Hóa Quyền");
-    public static readonly Hóa_Khoa = new PhuTinh("Hóa Khoa");
-    public static readonly Hóa_Kỵ = new PhuTinh("Hóa Kỵ", CatHung.Hung);
+    public static readonly Hóa_Lộc = new PhuTinh("Hóa Lộc", CatHung.Cát, TinhDauGroup.Tứ_Hóa);
+    public static readonly Hóa_Quyền = new PhuTinh("Hóa Quyền", CatHung.Cát, TinhDauGroup.Tứ_Hóa);
+    public static readonly Hóa_Khoa = new PhuTinh("Hóa Khoa", CatHung.Cát, TinhDauGroup.Tứ_Hóa);
+    public static readonly Hóa_Kỵ = new PhuTinh("Hóa Kỵ", CatHung.Hung, TinhDauGroup.Tứ_Hóa);
 
     public static readonly tuHoa = [
         PhuTinh.Hóa_Lộc, PhuTinh.Hóa_Quyền, PhuTinh.Hóa_Khoa, PhuTinh.Hóa_Kỵ

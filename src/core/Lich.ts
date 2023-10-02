@@ -51,7 +51,11 @@ export class AmLich {
 
     private xacDinhCanChiNgay() {
         let can = Can.byValue((this._julianDay) % 10);
-        let chi = Chi.list[(this._julianDay % 12) - 1];
+        let chiIdx = (this._julianDay % 12) - 1;
+        if (chiIdx == -1) {
+            chiIdx = 11;
+        }
+        let chi = Chi.list[chiIdx];
         this._ngay = new HoaGiapVal(can, chi, this.dateTime.date());
     }
 

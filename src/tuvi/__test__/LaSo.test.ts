@@ -207,6 +207,9 @@ test('Khởi tạo lá số', () => {
     expect(laso.timSao(ChinhTinh.Tham_Lang).phuTinh).toContain(PhuTinh.Hóa_Quyền);
     expect(laso.timSao(ChinhTinh.Thiên_Lương).phuTinh).toContain(PhuTinh.Hóa_Khoa);
     expect(laso.timSao(PhuTinh.Văn_Khúc).phuTinh).toContain(PhuTinh.Hóa_Kỵ);
+    for (let i = 0; i < laso.cungList.length; i++) {
+        expect(laso.getCungVi(Chi.Thìn.lui(i)).daiVan).toBe(10 * i + laso.cuc.cuc);
+    }
 
     let laso1: LaSo = LaSo.new('1995-11-11 23:45:00', GioiTinh.Nữ);
     expect(laso1.getCungVi(Chi.Thìn).can).toBe(Can.Canh);
@@ -256,15 +259,18 @@ test('Khởi tạo lá số bằng lịch âm', () => {
 });
 
 test('Tuần Triệt', () => {
-
     let laso = LaSo.new('1963-03-03 17:00:00', GioiTinh.Nữ, AmDuong.Dương);
     expect(laso.getCungVi(Chi.Tý).phuTinh).toContain(PhuTinh.TRIỆT);
     expect(laso.getCungVi(Chi.Sửu).phuTinh).toContain(PhuTinh.TRIỆT);
 })
-test('1994-01-27 09:07', () => {
-
-    let laso = LaSo.new('1994-01-27 09:07', GioiTinh.Nữ, AmDuong.Dương);
+test('1994-01-27 11:07', () => {
+    let laso = LaSo.new('1994-01-27 11:07', GioiTinh.Nữ, AmDuong.Dương);
+    expect(laso.amLich.ngay.can).toBe(Can.Quý);
+    expect(laso.amLich.ngay.chi).toBe(Chi.Sửu);
     expect(laso.getCungVi(Chi.Tý).phuTinh).toContain(PhuTinh.TRIỆT);
     expect(laso.getCungVi(Chi.Sửu).phuTinh).toContain(PhuTinh.TRIỆT);
+    for (let i = 0; i < laso.cungList.length; i++) {
+        expect(laso.getCungVi(Chi.Mùi.tien(i)).daiVan).toBe(10 * i + laso.cuc.cuc);
+    }
 })
 
