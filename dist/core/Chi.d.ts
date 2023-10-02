@@ -1,0 +1,31 @@
+export declare class Chi {
+    static readonly Tý: Chi;
+    static readonly Sửu: Chi;
+    static readonly Dần: Chi;
+    static readonly Mão: Chi;
+    static readonly Thìn: Chi;
+    static readonly Tị: Chi;
+    static readonly Ngọ: Chi;
+    static readonly Mùi: Chi;
+    static readonly Thân: Chi;
+    static readonly Dậu: Chi;
+    static readonly Tuất: Chi;
+    static readonly Hợi: Chi;
+    static readonly list: Chi[];
+    private _value;
+    private _name;
+    private _napAm;
+    private constructor();
+    static byIndexFromTy(value: number): Chi;
+    tien(value: number): Chi;
+    lui(value: number): Chi;
+    getValueFromTy(): number;
+    getIndexFromTy(): number;
+    get index(): number;
+    get value(): number;
+    set value(value: number);
+    get name(): string;
+    set name(value: string);
+    get napAm(): number;
+    set napAm(value: number);
+}
