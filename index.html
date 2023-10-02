@@ -32,9 +32,9 @@
             min-width: 200px;
         }
 
-        .thien-ban,
-        .thien-ban th,
-        .thien-ban td {
+        #thien-ban,
+        #thien-ban th,
+        #thien-ban td {
             border: none;
             min-width: auto;
         }
@@ -179,48 +179,34 @@
                                 </template>
                                 <template x-if="matrix[row - 1][col - 1] == 'merged'">
                                     <div>
-                                        <table class="thien-ban font-bold">
+                                        <table id="thien-ban" class="font-bold">
                                             <tr>
-                                                <td></td>
-                                                <td>Năm</td>
-                                                <td>Tháng</td>
-                                                <td>Ngày</td>
-                                                <td>Giờ</td>
+                                                <td x-text="'Cục:'"></td>
+                                                <td x-html="laso.cuc.cucName"></td>
                                             </tr>
                                             <tr>
-                                                <td>Dương Lịch</td>
-                                                <td x-text="laso.duongLich.year()"></td>
-                                                <td x-text="pad00(laso.duongLich.month() + 1)"></td>
-                                                <td x-text="pad00(laso.duongLich.date())"></td>
-                                                <td x-text="laso.duongLich.format('HH:mm')"></td>
+                                                <td x-text="'Dương Lịch: '"></td>
+                                                <td x-html="laso.duongLich.format('YYYY-MM-DD HH:mm')"></td>
                                             </tr>
                                             <tr>
-                                                <td>Âm Lịch</td>
-                                                <td></td>
-                                                <td x-text="pad00(laso.amLich.thang.val)"></td>
-                                                <td x-text="pad00(laso.amLich.ngay.val)"></td>
-                                                <td x-text="laso.amLich.gio.chi.name"></td>
+                                                <td x-text="'Ngày: '"></td>
+                                                <td x-html="pad00(laso.amLich.ngay.val) + ' ' + laso.amLich.ngay.can.name + ' ' + laso.amLich.ngay.chi.name"></td>
                                             </tr>
                                             <tr>
-                                                <td>Can Chi</td>
+                                                <td x-text="'Tháng: '"></td>
+                                                <td x-html="pad00(laso.amLich.thang.val) + ' ' + laso.amLich.thang.can.name + ' ' + laso.amLich.thang.chi.name"></td>
+                                            </tr>
+                                            <tr>
+                                                <td x-text="'Năm: '"></td>
                                                 <td x-html="laso.amLich.nam.can.name + ' ' + laso.amLich.nam.chi.name"></td>
-                                                <td x-html="laso.amLich.thang.can.name + ' ' + laso.amLich.thang.chi.name"></td>
-                                                <td x-html="laso.amLich.ngay.can.name + ' ' + laso.amLich.ngay.chi.name"></td>
+                                            </tr>
+                                            <tr>
+                                                <td x-text="'Giờ: '"></td>
                                                 <td x-html="laso.amLich.gio.can.name + ' ' + laso.amLich.gio.chi.name"></td>
                                             </tr>
                                             <tr>
-                                                <td x-text="'Cục'"></td>
-                                                <td x-html="laso.cuc.cucName"></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td x-text="'Giới Tính'"></td>
+                                                <td x-text="'Giới Tính: '"></td>
                                                 <td x-html="laso.amLich.nam.can.amDuong.name + ' ' + laso.gioiTinh.gioiTinh"></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
                                             </tr>
                                         </table>
                                     </div>
