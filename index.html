@@ -13,14 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"
           crossorigin="anonymous">
     <style>
-        /*!* Custom CSS to center the body horizontally *!*/
-        /*body {*/
-        /*    display: flex;*/
-        /*    justify-content: center;*/
-        /*    align-items: center;*/
-        /*    min-height: 100vh; !* Set the body's minimum height to the viewport height *!*/
-        /*}*/
-
         table {
             border-collapse: collapse;
         }
@@ -95,11 +87,11 @@
         </h4>
         <div class="flex flex-wrap -mx-3 mb-2">
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-year">
                     Năm
                 </label>
                 <div class="relative">
-                    <select x-model="year" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <select x-model="year" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-year">
                         <template x-for="yyyy in years">
                             <option x-text="yyyy" :selected="yyyy == year"></option>
                         </template>
@@ -110,11 +102,11 @@
                 </div>
             </div>
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-month">
                     Tháng
                 </label>
                 <div class="relative">
-                    <select x-model="month" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <select x-model="month" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-month">
                         <template x-for="mm in months">
                             <option x-html="mm" :selected="mm == month"></option>
                         </template>
@@ -125,11 +117,11 @@
                 </div>
             </div>
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-date">
                     Ngày
                 </label>
                 <div class="relative">
-                    <select x-model="day" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <select x-model="day" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-date">
                         <template x-for="dd in days">
                             <option x-text="dd" :selected="dd == day"></option>
                         </template>
@@ -140,11 +132,11 @@
                 </div>
             </div>
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-hour">
                     GIờ
                 </label>
                 <div class="relative">
-                    <select x-model="hour" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <select x-model="hour" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-hour">
                         <template x-for="hh in hours">
                             <option x-text="hh" :selected="hh == hour"></option>
                         </template>
@@ -155,11 +147,11 @@
                 </div>
             </div>
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-minute">
                     Phút
                 </label>
                 <div class="relative">
-                    <select x-model="minute" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <select x-model="minute" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-minute">
                         <template x-for="mm in minutes">
                             <option x-text="mm" :selected="mm == minute"></option>
                         </template>
@@ -172,10 +164,10 @@
         </div>
         <div class="flex flex-wrap -mx-3 mb-2">
             <div class="w-full md:w-2/5 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-datetime">
                     Ngày Giờ Sinh
                 </label>
-                <input class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight" id="datetime" type="text"
+                <input class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight" id="grid-datetime" type="text"
                        x-mask:function="formatDateTime" x-model="datetime"
                        @keydown.enter="xem()" @keydown.n="toggleGioiTinh()">
                 <input type="text" class="hidden" x-mask:function="formatDateTime" x-model="datetime"
@@ -183,11 +175,11 @@
 
             </div>
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-calendar">
                     Lịch
                 </label>
                 <div class="relative">
-                    <select x-model="lich" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-2 pr-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <select x-model="lich" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-2 pr-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-calendar">
                         <option>Dương</option>
                         <option>Âm</option>
                     </select>
@@ -197,11 +189,11 @@
                 </div>
             </div>
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-gender">
                     Giới Tính
                 </label>
                 <div class="relative">
-                    <select x-model="gioiTinh" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-2 pr-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <select x-model="gioiTinh" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-2 pr-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-gender">
                         <option>Nam</option>
                         <option>Nữ</option>
                     </select>
@@ -211,10 +203,10 @@
                 </div>
             </div>
             <div class="w-full md:w-1/5 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-btn">
                     &nbsp;
                 </label>
-                <button x-bind="bindData" class="bg-blue-500 hover:bg-blue-700 w-full text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                <button x-bind="bindData" class="bg-blue-500 hover:bg-blue-700 w-full text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline" type="button" id="grid-btn">
                     Xem
                 </button>
             </div>
