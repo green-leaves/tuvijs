@@ -6,15 +6,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
     <script type="text/javascript" src="./dist/tuvijs.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"
+          crossorigin="anonymous">
     <style>
-        /* Custom CSS to center the body horizontally */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Set the body's minimum height to the viewport height */
-        }
+        /*!* Custom CSS to center the body horizontally *!*/
+        /*body {*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*    align-items: center;*/
+        /*    min-height: 100vh; !* Set the body's minimum height to the viewport height *!*/
+        /*}*/
 
         table {
             border-collapse: collapse;
@@ -81,57 +86,143 @@
             padding-bottom: 12px;
         }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-<div x-data="app">
-    <div>
-    Lịch Dương: <input type="radio" value="Dương" x-model="lich">
-    Lịch Âm: <input type="radio" value="Âm" x-model="lich">
-    </div>
-    Năm <select x-model="year" x-on:change="onDateTimeChange($event)">
-        <option value="" disabled>Năm</option>
-        <template x-for="yyyy in years">
-            <option x-text="yyyy" :selected="yyyy == year"></option>
-        </template>
-    </select>
-    Tháng <select x-model="month" x-on:change="onDateTimeChange($event)">
-        <template x-for="mm in months">
-            <option x-html="mm" :selected="mm == month"></option>
-        </template>
-    </select>
-    Ngày <select x-model="day" x-on:change="onDateTimeChange($event)">
-        <template x-for="dd in days">
-            <option x-text="dd" :selected="dd == day"></option>
-        </template>
-    </select>
+<div x-data="app" class="container mx-auto px-10">
+    <form class="w-full max-w-lg mx-auto">
+        <h4 class="text-center mb-2 mt-0 text-2xl font-medium leading-tight text-primary">
+            Lấy Lá Số Tử Vi
+        </h4>
+        <div class="flex flex-wrap -mx-3 mb-2">
+            <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    Năm
+                </label>
+                <div class="relative">
+                    <select x-model="year" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        <template x-for="yyyy in years">
+                            <option x-text="yyyy" :selected="yyyy == year"></option>
+                        </template>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    Tháng
+                </label>
+                <div class="relative">
+                    <select x-model="month" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        <template x-for="mm in months">
+                            <option x-html="mm" :selected="mm == month"></option>
+                        </template>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    Ngày
+                </label>
+                <div class="relative">
+                    <select x-model="day" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        <template x-for="dd in days">
+                            <option x-text="dd" :selected="dd == day"></option>
+                        </template>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    GIờ
+                </label>
+                <div class="relative">
+                    <select x-model="hour" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        <template x-for="hh in hours">
+                            <option x-text="hh" :selected="hh == hour"></option>
+                        </template>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    Phút
+                </label>
+                <div class="relative">
+                    <select x-model="minute" x-on:change="onDateTimeChange($event)" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        <template x-for="mm in minutes">
+                            <option x-text="mm" :selected="mm == minute"></option>
+                        </template>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-2">
+            <div class="w-full md:w-2/5 px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    Ngày Giờ Sinh
+                </label>
+                <input class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight" id="datetime" type="text"
+                       x-mask:function="formatDateTime" x-model="datetime"
+                       @keydown.enter="xem()" @keydown.n="toggleGioiTinh()">
+                <input type="text" class="hidden" x-mask:function="formatDateTime" x-model="datetime"
+                       @keydown.enter="xem()" @keydown.n="toggleGioiTinh()">
 
-    <select x-model="hour" x-on:change="onDateTimeChange($event)">
-        <option value="" disabled>Giờ</option>
-        <template x-for="hh in hours">
-            <option x-text="hh" :selected="hh == hour"></option>
-        </template>
-    </select>
-
-    <select x-model="minute" x-on:change="onDateTimeChange($event)">
-        <option value="" disabled>Phút</option>
-        <template x-for="mm in minutes">
-            <option x-text="mm" :selected="mm == minute"></option>
-        </template>
-    </select>
-
-    <!-- Input field -->
-    <!--9999-99-99 99:99-->
-    <input type="text" class="border border-gray-300 p-2 m-2" x-mask:function="formatDateTime" x-model="datetime"
-           @keydown.enter="xem()" @keydown.n="toggleGioiTinh()">
-
-    Nam: <input type="radio" value="Nam" x-model="gioiTinh">
-    Nữ: <input type="radio" value="Nữ" x-model="gioiTinh">
-    <!-- Button to bind data -->
-    <button x-bind="bindData" class="bg-blue-500 text-white p-2 rounded-md m-2">Xem</button>
+            </div>
+            <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    Lịch
+                </label>
+                <div class="relative">
+                    <select x-model="lich" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-2 pr-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        <option>Dương</option>
+                        <option>Âm</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    Giới Tính
+                </label>
+                <div class="relative">
+                    <select x-model="gioiTinh" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-2 pr-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        <option>Nam</option>
+                        <option>Nữ</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/5 px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    &nbsp;
+                </label>
+                <button x-bind="bindData" class="bg-blue-500 hover:bg-blue-700 w-full text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Xem
+                </button>
+            </div>
+        </div>
+    </form>
 
     <template x-if="laso != null">
-        <table id="laso">
+        <table id="laso" class="w-full max-w-lg mx-auto mb-2">
             <template x-for="row in 4">
                 <tr>
                     <template x-for="col in 4">
@@ -157,20 +248,21 @@
                                         <div class="clearfix phu-tinh">
                                             <div class="float-left">
                                                 <template x-for="catTinh in matrix[row - 1][col - 1].phuTinhTot">
-<!--                                                    <div :class="setPhuTinhClass(catTinh)" x-html="catTinh.name"></div>-->
                                                     <div>
-                                                        <span :class="setPhuTinhClass(catTinh)" x-html="catTinh.name"></span>
+                                                        <span :class="setPhuTinhClass(catTinh)"
+                                                              x-html="catTinh.name"></span>
                                                     </div>
                                                 </template>
                                             </div>
                                             <div class="float-right">
                                                 <template x-for="satTinh in matrix[row - 1][col - 1].phuTinhXau">
-                                                    <div :class="setPhuTinhClass(satTinh)"  x-html="satTinh.name"></div>
+                                                    <div :class="setPhuTinhClass(satTinh)" x-html="satTinh.name"></div>
                                                 </template>
                                             </div>
                                         </div>
 
-                                        <div class="absolute bottom-0 text-center flex justify-between px-1">
+                                        <div class="absolute bottom-0 text-center flex justify-between"
+                                             style="padding: 1px">
                                             <span x-html="matrix[row - 1][col - 1].tieuVan.name"></span>
                                             <span x-html="matrix[row - 1][col - 1].can.name + ' ' + matrix[row - 1][col - 1].chi.name"></span>
                                             <span x-html="matrix[row - 1][col - 1].daiVan"></span>
@@ -311,7 +403,7 @@
             lich: 'Dương',
             datetime: `${currentYear}-${currentMonth}-${currentDay} ${currentHour}:${currentMinute}`,
             onDateTimeChange() {
-                this.datetime = `${this.year}-${this.month}-${this.day} ${this.hour}:${this.minute}`;
+                this.datetime = `${this.year}-${pad00(this.month)}-${pad00(this.day)} ${pad00(this.hour)}:${pad00(this.minute)}`;
             },
             xem() {
                 this.laso = tuvi.LaSo.new(this.datetime, tuvi.GioiTinh.from(this.gioiTinh), tuvi.AmDuong.from(this.lich));
@@ -348,6 +440,18 @@
             },
             toggleGioiTinh() {
                 this.gioiTinh = this.gioiTinh == "Nam" ? "Nữ" : "Nam";
+            },
+            downloadImg() {
+                html2canvas(document.querySelector("#laso")).then(canvas => {
+                    // let link = document.createElement("a");
+                    // document.body.appendChild(link);
+                    // link.download = "html_image.png";
+                    // link.href = canvas.toDataURL("image/png");
+                    // link.target = '_blank';
+                    // link.click();
+                    document.body.appendChild(canvas);
+                });
+
             },
             bindData: {
                 ['@click']() {
