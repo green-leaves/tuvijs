@@ -22,7 +22,6 @@
         }
 
         th, td {
-            padding: 10px;
             text-align: left;
             position: relative;
             vertical-align: top;
@@ -34,6 +33,7 @@
         #thien-ban td {
             border: none;
             min-width: auto;
+            padding: 10px;
         }
 
         .absolute {
@@ -237,7 +237,7 @@
                                                 </template>
                                             </div>
                                         </div>
-                                        <div class="clearfix phu-tinh">
+                                        <div class="clearfix phu-tinh px-2 mb-2">
                                             <div class="float-left">
                                                 <template x-for="catTinh in matrix[row - 1][col - 1].phuTinhTot">
                                                     <div>
@@ -253,7 +253,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="absolute bottom-0 text-center flex justify-between px-2 text-sm">
+                                        <div class="absolute bottom-0 text-center flex justify-between px-2">
                                             <span x-html="matrix[row - 1][col - 1].tieuVan.name"></span>
                                             <span x-html="matrix[row - 1][col - 1].can.name + ' ' + matrix[row - 1][col - 1].chi.name"></span>
                                             <span x-html="matrix[row - 1][col - 1].daiVan"></span>
