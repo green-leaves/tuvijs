@@ -156,7 +156,7 @@ export class PhuTinh implements TinhDau {
     public static readonly Thiếu_Dương = new PhuTinh("Thiếu Dương");
     public static readonly Tang_Môn = new PhuTinh("Tang Môn");
     public static readonly Thiếu_Âm = new PhuTinh("Thiếu Âm");
-    public static readonly Quan_Phù = new PhuTinh("Quan_Phù");
+    public static readonly Quan_Phù = new PhuTinh("Quan Phù");
     public static readonly Tử_Phù = new PhuTinh("Tử Phù");
     public static readonly Tuế_Phá = new PhuTinh("Tuế Phá");
     public static readonly Long_Đức = new PhuTinh("Long Đức");
