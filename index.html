@@ -372,13 +372,12 @@
                 return 'font-bold text-pink-600';
             }
         }
-
         if (sao.name === "Tuần" || sao.name === "Triệt") {
             return 'bg-gray-200 rounded py-px px-1';
         }
 
         if (sao.name === "Lộc Tồn") {
-            return 'font-bold text-yellow-400';
+            return 'font-bold text-yellow-800';
         }
     }
 
@@ -432,11 +431,19 @@
                 this.matrix[3][2] = this.laso.getCungVi(tuvi.Chi.Tý);
                 this.matrix[3][3] = this.laso.getCungVi(tuvi.Chi.Hợi);
 
-                this.year = this.laso.duongLich.year();
-                this.month = this.laso.duongLich.month() + 1;
-                this.day = this.laso.duongLich.date();
-                this.hour = this.laso.duongLich.hour();
-                this.minute = this.laso.duongLich.minute();
+                if (this.lich === "Dương") {
+                    this.year = this.laso.duongLich.year();
+                    this.month = this.laso.duongLich.month() + 1;
+                    this.day = this.laso.duongLich.date();
+                    this.hour = this.laso.duongLich.hour();
+                    this.minute = this.laso.duongLich.minute();
+                } else {
+                    this.year = this.laso.amLich.year();
+                    this.month = this.laso.amLich.month() + 1;
+                    this.day = this.laso.amLich.date();
+                    this.hour = this.laso.amLich.hour();
+                    this.minute = this.laso.amLich.minute();
+                }
                 console.log(this.laso);
 
                 const url = new URL(window.location.href);
