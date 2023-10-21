@@ -97,6 +97,12 @@
         <h4 class="text-center mb-2 mt-0 text-2xl font-medium leading-tight text-primary">
             Lấy Lá Số Tử Vi
         </h4>
+        <div class="flex">
+            <div class="flex items-center mb-2 mr-2">
+                <input id="link-checkbox" type="checkbox" x-model="tuhoa" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="link-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tứ Hóa Phái</label>
+            </div>
+        </div>
         <div class="flex flex-wrap -mx-3 mb-2">
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-year">
@@ -184,7 +190,6 @@
                        @keydown.enter="xem()" @keydown.n="toggleGioiTinh()">
                 <input type="text" class="hidden" x-mask:function="formatDateTime" x-model="datetime"
                        @keydown.enter="xem()" @keydown.n="toggleGioiTinh()">
-
             </div>
             <div class="w-full md:w-1/5 px-3 mb-2 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-calendar">
@@ -262,6 +267,21 @@
                                                 <template x-for="satTinh in matrix[row - 1][col - 1].phuTinhXau">
                                                     <div :class="setPhuTinhClass(satTinh)" x-html="satTinh.name"></div>
                                                 </template>
+                                            </div>
+                                        </div>
+
+                                        <div id="tu-hoa-phi-tinh" x-show="tuhoa" class="clearfix phu-tinh text-sm mb-5 flex justify-between px-2">
+                                            <div class="text-green-600">
+                                                <span x-html="'Lộc   - ' + matrix[row - 1][col - 1].tuHoaPhiTinh[0].name"></span>
+                                            </div>
+                                            <div class="text-red-600">
+                                                <span x-html="'Quyền - ' + matrix[row - 1][col - 1].tuHoaPhiTinh[1].name"></span>
+                                            </div>
+                                            <div class="text-yellow-600">
+                                                <span x-html="'Khoa  - ' + matrix[row - 1][col - 1].tuHoaPhiTinh[2].name"></span>
+                                            </div>
+                                            <div>
+                                                <span x-html="'Kỵ- ' + matrix[row - 1][col - 1].tuHoaPhiTinh[3].name"></span>
                                             </div>
                                         </div>
 
@@ -407,6 +427,7 @@
             minute: currentMinute,
             gioiTinh: 'Nam',
             lich: 'Dương',
+            tuhoa: true,
             datetime: `${currentYear}-${currentMonth}-${currentDay} ${currentHour}:${currentMinute}`,
             onDateTimeChange() {
                 this.datetime = `${this.year}-${pad00(this.month)}-${pad00(this.day)} ${pad00(this.hour)}:${pad00(this.minute)}`;

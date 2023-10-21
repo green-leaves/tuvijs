@@ -151,6 +151,7 @@ export class LaSo {
         laso.anTuanKhong();
         laso.anDaiVan();
         laso.anTieuVan();
+        laso.anTuHoaPhiTinh();
     }
 
     private timHanhNamSinh() {
@@ -810,8 +811,16 @@ export class LaSo {
     }
 
     private anTuHoa() {
+        let saoHoa = this.timTuHoaTheoCan(this.amLich.nam.can);
+
+        saoHoa.forEach((sao, index) => {
+            this.timSao(sao).anPhuTinh(PhuTinh.tuHoa[index]);
+        });
+    }
+
+    private timTuHoaTheoCan(can: Can) {
         let saoHoa: TinhDau[];
-        switch (this.amLich.nam.can) {
+        switch (can) {
             case Can.Giáp:
                 saoHoa = [ChinhTinh.Liêm_Trinh, ChinhTinh.Phá_Quân, ChinhTinh.Vũ_Khúc, ChinhTinh.Thái_Dương];
                 break;
@@ -843,10 +852,7 @@ export class LaSo {
                 saoHoa = [ChinhTinh.Phá_Quân, ChinhTinh.Cự_Môn, ChinhTinh.Thái_Âm, ChinhTinh.Tham_Lang];
                 break;
         }
-
-        saoHoa.forEach((sao, index) => {
-            this.timSao(sao).anPhuTinh(PhuTinh.tuHoa[index]);
-        });
+        return saoHoa;
     }
 
     private anTrietKhong() {
@@ -956,6 +962,15 @@ export class LaSo {
         }
 
     }
+
+    private anTuHoaPhiTinh() {
+        this.cungList.forEach(cung => {
+            let saoHoa = this.timTuHoaTheoCan(cung.can);
+            saoHoa.forEach((sao, index) => {
+                cung.tuHoaPhiTinh.push(this.timSao(sao).cungChuc);
+            });
+        });
+    }
 }
 
 export class Cung {
@@ -967,6 +982,7 @@ export class Cung {
     private _phuTinh: PhuTinh[] = [];
     private _daiVan: number;
     private _tieuVan: Chi;
+    private _tuHoaPhiTinh: CungChuc[] = [];
 
     constructor(chi: Chi) {
         this._chi = chi;
@@ -990,6 +1006,10 @@ export class Cung {
 
     get phuTinhXau() : PhuTinh[] {
         return this._phuTinh.filter(phuTinh => CatHung.Hung.equals(phuTinh.type));
+    }
+
+    get phiHoaLoc(): CungChuc {
+        return this._tuHoaPhiTinh[0];
     }
 
     get can(): Can {
@@ -1057,6 +1077,15 @@ export class Cung {
 
     set tieuVan(value: Chi) {
         this._tieuVan = value;
+    }
+
+
+    get tuHoaPhiTinh(): CungChuc[] {
+        return this._tuHoaPhiTinh;
+    }
+
+    set tuHoaPhiTinh(value: CungChuc[]) {
+        this._tuHoaPhiTinh = value;
     }
 }
 
