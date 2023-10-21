@@ -73,10 +73,12 @@ export declare class LaSo {
     private anThienTru;
     private anAmSat;
     private anTuHoa;
+    private timTuHoaTheoCan;
     private anTrietKhong;
     private anTuanKhong;
     private anDaiVan;
     private anTieuVan;
+    private anTuHoaPhiTinh;
 }
 export declare class Cung {
     private _can;
@@ -87,12 +89,14 @@ export declare class Cung {
     private _phuTinh;
     private _daiVan;
     private _tieuVan;
+    private _tuHoaPhiTinh;
     constructor(chi: Chi);
     anChinhTinh(chinhTinh: ChinhTinh): void;
     anPhuTinh(phuTinh: PhuTinh): void;
     getTinhDau(): TinhDau[];
     get phuTinhTot(): PhuTinh[];
     get phuTinhXau(): PhuTinh[];
+    get phiHoaLoc(): CungChuc;
     get can(): Can;
     set can(value: Can);
     get chi(): Chi;
@@ -109,6 +113,8 @@ export declare class Cung {
     set daiVan(value: number);
     get tieuVan(): Chi;
     set tieuVan(value: Chi);
+    get tuHoaPhiTinh(): CungChuc[];
+    set tuHoaPhiTinh(value: CungChuc[]);
 }
 export declare class CungChuc {
     static readonly Mệnh: CungChuc;
